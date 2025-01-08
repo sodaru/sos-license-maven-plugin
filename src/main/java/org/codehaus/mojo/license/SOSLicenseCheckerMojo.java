@@ -39,6 +39,12 @@ public class SOSLicenseCheckerMojo
 {
     private static final Logger LOG = LoggerFactory.getLogger(SOSLicenseCheckerMojo.class);
 
+    @Parameter(
+            property = "license.acceptPomPackaging",
+            defaultValue = "true"
+    )
+    protected boolean acceptPomPackaging;
+
     @Parameter(property = "reactorProjects", readonly = true, required = true)
     private List<MavenProject> reactorProjects;
 
@@ -49,16 +55,16 @@ public class SOSLicenseCheckerMojo
     @Parameter(property = "license.validator.key", required = true)
     private String licenseValidatorKey;
 
-    @Parameter(property = "project.title", required = true)
+    @Parameter(property = "projectName", required = true)
     private String projectName;
 
-    @Parameter(property = "project.url", required = true)
+    @Parameter(property = "projectUrl", required = true)
     private String projectUrl;
 
-    @Parameter(property = "build.url", required = false)
+    @Parameter(property = "buildUrl", required = false)
     private String buildUrl;
 
-    @Parameter(property = "build.user", required = false)
+    @Parameter(property = "buildUser", required = false)
     private String buildUser;
 
 
@@ -134,6 +140,11 @@ public class SOSLicenseCheckerMojo
 
         postScanResults();
 
+    }
+
+    @Override
+    protected boolean checkPackaging() {
+        return true;
     }
     private void postScanResults() throws Exception {
         ScanResult scanResult = new ScanResult();
